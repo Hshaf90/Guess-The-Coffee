@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Coffee</title>
+  <style>
+    /* General body styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000000; /* Black background */
+      color: #32CD32; /* Lime green text */
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    /* Container for the game */
+    .game-container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    /* Coffee image */
+    .coffee-image {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      margin: 20px auto;
+    }
+
+    /* Buttons */
+    .options button {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      background-color: #32CD32; /* Lime green buttons */
+      color: #000000; /* Black text */
+      cursor: pointer;
+    }
+
+    /* Button hover effect */
+    .options button:hover {
+      background-color: #28a745; /* Darker green */
+    }
+
+    /* Feedback message */
+    .feedback {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* Play again button */
+    .play-again {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .play-again button {
+      background-color: #32CD32;
+      color: #000000;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .play-again button:hover {
+      background-color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Guess the Coffee!</h1>
+    <p>Can you guess this coffee drink?</p>
+    <img src="latte.jpg" alt="Coffee" class="coffee-image" id="coffeeImage">
+    <div class="options">
+      <button onclick="checkAnswer('Latte')">Latte</button>
+      <button onclick="checkAnswer('Espresso')">Espresso</button>
+      <button onclick="checkAnswer('Cappuccino')">Cappuccino</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="play-again">
+      <button onclick="loadCoffee()">Play Again</button>
+    </div>
+  </div>
+
+  <script>
+    // Coffee options for the game
+    const coffeeOptions = [
+      { name: "Latte", image: "latte.jpg" },
+      { name: "Espresso", image: "espresso.jpg" },
+      { name: "Cappuccino", image: "cappuccino.jpg" }
+    ];
+    
+    let currentCoffee = {};
+
+    // Function to load a new coffee
+    function loadCoffee() {
+      const randomIndex = Math.floor(Math.random() * coffeeOptions.length);
+      currentCoffee = coffeeOptions[randomIndex];
+      document.getElementById("coffeeImage").src = currentCoffee.image;
+      document.getElementById("feedback").innerText = "";
+      document.querySelector('.play-again').style.display = 'none';
+    }
+
+    // Function to check the player's answer
+    function checkAnswer(answer) {
+      if (answer === currentCoffee.name) {
+        document.getElementById("feedback").innerHTML = 
+          `🎉 Correct! Your discount code: <strong>${generateDiscountCode()}</strong>`;
+      } else {
+        document.getElementById("feedback").innerText = "❌ Wrong guess! Try again.";
+      }
+      document.querySelector('.play-again').style.display = 'block';
+    }
+
+    // Function to generate a random discount code
+    function generateDiscountCode() {
+      const code = "COFFEE" + Math.floor(1000 + Math.random() * 9000);
+      return code;
+    }
+
+    // Load a random coffee when the page loads
+    window.onload = loadCoffee;
+  </script>
+</body>
+</html>
